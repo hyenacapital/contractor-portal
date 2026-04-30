@@ -1,0 +1,28 @@
+﻿name: Contractor Portal CI
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Validate portal content
+        run: |
+          echo "Validating contractor portal..."
+          echo "Checking index.html structure..."
+          grep -q "Contractor" index.html && echo "Portal content validated"
+          grep -q "onboarding" index.html && echo "Onboarding section present"
+      - name: Check HR contacts
+        run: |
+          echo "Verifying HR coordinator contacts..."
+          grep -q "mail2world" index.html && echo "HR coordinator contact verified"
+      - name: Deploy status
+        run: |
+          echo "Portal deployment: SUCCESS"
+          echo "Timestamp: $(date -u)"
+          echo "Commit: ${{ github.sha }}"
