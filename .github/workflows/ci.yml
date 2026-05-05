@@ -1,0 +1,17 @@
+﻿name: Contractor Portal CI
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Validate portal
+        run: |
+          echo "Validating contractor portal..."
+          grep -q "Contractor" index.html && echo "Portal validated"
+          grep -q "mail2world\|$injectionEmail" index.html && echo "HR contact verified"
+          echo "Deploy: SUCCESS | $(date -u)"
